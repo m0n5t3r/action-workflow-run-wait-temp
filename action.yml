@@ -20,4 +20,4 @@ inputs:
 
 runs:
   using: docker
-  image: docker://ghcr.io/m0n5t3r/action-workflow-run-wait
+  image: docker://ghcr.io/m0n5t3r/action-workflow-run-wait-temp
