@@ -31,7 +31,7 @@ export default async function ({ octokit, workflow_id, run_id, sha }) {
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
 
   core.debug(`found ${cancellable.length} cancellable runs of workflow ${workflow_id}`)
-  //core.debug(inspect(cancellable))
+  // core.debug(inspect(cancellable))
 
   // exclude last one (i.e. the first running instance)
   const prime = cancellable.pop()
