@@ -33,6 +33,10 @@ export default async function ({ octokit, workflow_id, run_id, sha }) {
   core.debug(`found ${cancellable.length} cancellable runs of workflow ${workflow_id}`)
   // core.debug(inspect(cancellable))
 
+  if (cancellable.length == 0) {
+      return;
+  }
+
   // exclude last one (i.e. the first running instance)
   const prime = cancellable.pop()
 
