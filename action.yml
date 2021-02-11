@@ -1,5 +1,5 @@
-name: Workflow Run Wait
-description: wait for all `workflow_run` required workflows to be successful
+name: Workflow Run Wait Temp
+description: wait for all `workflow_run` required workflows to be successful; used for tests, don't rely on it
 
 branding:
   color: blue
@@ -20,4 +20,4 @@ inputs:
 
 runs:
   using: docker
-  image: docker://ghcr.io/ahmadnassri/action-workflow-run-wait
+  image: docker://ghcr.io/m0n5t3r/action-workflow-run-wait
