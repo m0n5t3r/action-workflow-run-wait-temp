@@ -11,14 +11,14 @@ import workflows from './workflows.js'
 // sleep function
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-export default async function ({ token, delay, timeout }) {
+export default async function ({ token, delay, timeout, sha }) {
   let timer = 0
 
   // init octokit
   const octokit = github.getOctokit(token)
 
   // extract sha
-  const { sha, ref, runId: run_id } = github.context
+  const { ctx_sha, ref, runId: run_id } = github.context
 
   core.debug(`sha: ${sha}`)
   core.debug(`run.id: ${run_id}`)
