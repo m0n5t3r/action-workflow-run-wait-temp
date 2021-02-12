@@ -38,7 +38,7 @@ export default async function ({ token, delay, timeout, sha }) {
   const dependencies = await workflows({ octokit, ref, workflow_id })
 
   // check runs
-  let result = await runs(octokit, dependencies)
+  let result = await runs(octokit, dependencies, sha)
 
   if (result.length === 0) {
     core.info('no runs found for this workflow\'s dependencies')
