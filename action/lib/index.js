@@ -72,7 +72,7 @@ export default async function ({ token, delay, timeout, sha }) {
     await sleep(delay)
 
     // get the data again
-    result = await runs(octokit, dependencies)
+    result = await runs(octokit, dependencies, sha)
   }
 
   for (const run of result) {
