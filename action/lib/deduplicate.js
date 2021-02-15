@@ -30,8 +30,8 @@ export default async function ({ octokit, workflow_id, run_id, sha }) {
     // sort
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
 
-  core.debug(`found ${cancellable.length} cancellable runs of workflow ${workflow_id}`)
-  // core.debug(inspect(cancellable))
+  core.info(`found ${cancellable.length} cancellable runs of workflow ${workflow_id}`)
+  core.debug(inspect(cancellable))
 
   if (cancellable.length == 0) {
       return;
@@ -40,7 +40,7 @@ export default async function ({ octokit, workflow_id, run_id, sha }) {
   // exclude last one (i.e. the first running instance)
   const prime = cancellable.pop()
 
-  core.debug(`determined ${prime.id} to be the prime run of this workflow`)
+  core.info(`determined ${prime.id} to be the prime run of this workflow`)
   // core.debug(inspect(prime))
 
   for (const run of cancellable) {
