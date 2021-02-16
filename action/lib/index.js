@@ -18,7 +18,7 @@ export default async function ({ token, delay, timeout, sha }) {
   const octokit = github.getOctokit(token)
 
   // extract sha
-  const { ctx_sha, ref, runId: run_id } = github.context
+  const { head_sha, ref, runId: run_id } = github.context
 
   core.debug(`sha: ${sha}`)
   core.debug(`run.id: ${run_id}`)
@@ -32,7 +32,7 @@ export default async function ({ token, delay, timeout, sha }) {
   core.debug(`workflow_id: ${workflow_id}`)
 
   // don't run this workflow twice for the same commit
-  await deduplicate({ octokit, workflow_id, run_id, sha })
+  await deduplicate({ octokit, workflow_id, run_id, head_sha })
 
   // find all the dependencies
   const dependencies = await workflows({ octokit, ref, workflow_id })
