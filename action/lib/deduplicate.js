@@ -7,7 +7,7 @@ import { inspect } from 'util'
 import core from '@actions/core'
 import github from '@actions/github'
 
-export default async function ({ octokit, workflow_id, run_id, sha }) {
+export default async function ({ octokit, workflow_id, run_id }) {
   // get current run of this workflow
   const { data: { workflow_runs } } = await octokit.request('GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs', {
     ...github.context.repo,
@@ -16,6 +16,8 @@ export default async function ({ octokit, workflow_id, run_id, sha }) {
 
   core.debug(`found ${workflow_runs.length} runs of workflow ${workflow_id}`)
   // core.debug(inspect(workflow_runs))
+
+  const { sha } = github.context
 
   // filter and sort
   const cancellable = workflow_runs
