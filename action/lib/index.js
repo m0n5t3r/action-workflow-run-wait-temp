@@ -20,8 +20,9 @@ export default async function ({ token, delay, timeout, sha }) {
   // extract sha
   const { head_sha, ref, runId: run_id } = github.context
 
-  core.debug(`sha: ${sha}`)
-  core.debug(`run.id: ${run_id}`)
+  core.info(`sha: ${sha}`)
+  core.info(`head sha: ${head_sha}`)
+  core.info(`run.id: ${run_id}`)
 
   // get workflow id from run id
   const { data: { workflow_id } } = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}', {
