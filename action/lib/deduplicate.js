@@ -30,7 +30,7 @@ export default async function ({ octokit, workflow_id, run_id, sha }) {
     // sort
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
 
-  core.info(`found ${cancellable.length} cancellable runs of workflow ${workflow_id}`)
+  core.info(`found ${cancellable.length} cancellable runs of workflow ${workflow_id} for sha ${sha}`)
   core.debug(inspect(cancellable))
 
   if (cancellable.length == 0) {
