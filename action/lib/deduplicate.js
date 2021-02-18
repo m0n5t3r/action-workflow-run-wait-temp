@@ -26,7 +26,7 @@ export default async function ({ octokit, workflow_id, run_id }) {
     // filter to only runs for the same commit
     .filter(run => run.head_sha === sha)
     // exclude this one
-    .filter(run => run.id !== run_id)
+    // .filter(run => run.id !== run_id)
     // pick relevant properties
     .map(run => ({ id: run.id, name: run.name, created_at: run.created_at }))
     // sort
@@ -36,9 +36,9 @@ export default async function ({ octokit, workflow_id, run_id }) {
   core.debug(inspect(cancellable))
 
   // exclude last one (i.e. the first running instance)
-  // const prime = cancellable.pop()
+  const prime = cancellable.pop()
 
-  // core.info(`determined ${prime && prime.id} to be the prime run of this workflow`)
+  core.info(`determined ${prime && prime.id} to be the prime run of this workflow`)
   // core.debug(inspect(prime))
 
   for (const run of cancellable) {
