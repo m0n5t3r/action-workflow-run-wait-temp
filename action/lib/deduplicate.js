@@ -20,30 +20,20 @@ export default async function ({ octokit, workflow_id, run_id }) {
   const { sha } = github.context
 
   // filter and sort
-  const cancellable = workflow_runs
-    // filter to relevant runs
-    .filter(run => ['in_progress', 'queued'].includes(run.status))
+  const current_runs = workflow_runs
+    // exclude this one
+    .filter(run => run.id !== run_id)
     // filter to only runs for the same commit
     .filter(run => run.head_sha === sha)
-    // exclude this one
-    // .filter(run => run.id !== run_id)
+    // filter out unsuccessful completed runs (cancelled / failed)
+    .filter(run => (run.status !== 'completed') || (run.conclusion === 'success'))
     // pick relevant properties
     .map(run => ({ id: run.id, name: run.name, created_at: run.created_at }))
-    // sort
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
 
-  core.info(`found ${cancellable.length} cancellable runs of workflow ${workflow_id} for sha ${sha}`)
-  core.debug(inspect(cancellable))
+  core.info(`found ${current_runs.length} existing runs of workflow ${workflow_id} for sha ${sha}`)
 
-  // exclude last one (i.e. the first running instance)
-  const prime = cancellable.pop()
-
-  core.info(`determined ${prime && prime.id} to be the prime run of this workflow`)
-  // core.debug(inspect(prime))
-
-  for (const run of cancellable) {
-    core.info(`${run.id}: ${run.name} => canceling`)
-
+  if(current_runs.length > 0) {
+    core.info('successful or in-progress runs found, bailing out')
     await octokit.request('POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel', {
       ...github.context.repo,
       run_id: run.id
