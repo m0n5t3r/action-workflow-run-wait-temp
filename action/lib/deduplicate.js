@@ -36,7 +36,7 @@ export default async function ({ octokit, workflow_id, run_id }) {
     core.info('successful or in-progress runs found, bailing out')
     await octokit.request('POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel', {
       ...github.context.repo,
-      run_id: run.id
+      run_id: run_id
     })
   }
 }
